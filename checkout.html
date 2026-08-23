@@ -1,182 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Checkout | Zasheira Li</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <style>
-        body {
-            background: #0a0a0a;
-            color: #e5e5e5;
-            font-family: Arial, sans-serif;
-            padding: 40px;
-        }
-
-        h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .checkout-box {
-            background: #111;
-            padding: 25px;
-            border-radius: 10px;
-            border: 1px solid #333;
-            max-width: 600px;
-        }
-
-        .item {
-            padding: 12px 0;
-            border-bottom: 1px solid #333;
-        }
-
-        .item:last-child {
-            border-bottom: none;
-        }
-
-        .total {
-            font-size: 22px;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-
-        .coupon {
-            margin-top: 10px;
-            font-size: 18px;
-            color: #4caf50;
-        }
-
-        button {
-            margin-top: 25px;
-            padding: 12px 20px;
-            background: #4caf50;
-            border: none;
-            border-radius: 6px;
-            color: #fff;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #45a049;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Checkout for Zasheira Li technical support services." />
+  <meta name="theme-color" content="#090d11" />
+  <link rel="icon" type="image/png" href="images/zl-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Checkout | Zasheira Li</title>
+  <!-- Meta Pixel Code -->
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1615574453463263');fbq('track','PageView');</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1615574453463263&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel Code -->
+  <style>
+    .checkout-page { min-height: 100vh; padding: 145px 25px 90px; }
+    .checkout-wrap { max-width: 1100px; margin: 0 auto; }
+    .checkout-wrap h1 { margin: 0 0 12px; font: 600 clamp(42px, 5vw, 76px)/.95 var(--heading); letter-spacing: -.06em; }
+    .checkout-intro { color: var(--muted); margin: 0 0 40px; }
+    .checkout-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr); gap: 24px; align-items: start; }
+    .checkout-card { padding: clamp(24px, 4vw, 40px); border: 1px solid var(--line); background: var(--panel); }
+    .checkout-card h2 { margin: 0 0 24px; color: var(--text); font: 500 25px var(--heading); }
+    .field { display: grid; gap: 8px; margin: 16px 0; }
+    .field label { color: var(--muted); font: 700 10px var(--heading); letter-spacing: .12em; text-transform: uppercase; }
+    .field input { width: 100%; padding: 13px 14px; border: 1px solid var(--line); border-radius: 0; background: #0a1115; color: var(--text); }
+    .field input::placeholder { color: #71827e; }
+    .promo-row { display: flex; gap: 10px; }
+    .promo-row input { flex: 1; }
+    .promo-row button { padding: 0 18px; border: 0; background: var(--brass); color: #10120f; font: 700 10px var(--heading); letter-spacing: .08em; text-transform: uppercase; }
+    .promo-message { min-height: 20px; margin: 8px 0 0; color: var(--aqua); font-size: 12px; }
+    .order-list { margin-bottom: 24px; }
+    .order-item { padding: 15px 0; border-bottom: 1px solid var(--line); }
+    .order-item strong { display: block; color: var(--text); font-family: var(--heading); }
+    .order-item span { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; }
+    .summary-line { display: flex; justify-content: space-between; gap: 16px; padding: 8px 0; color: var(--muted); }
+    .summary-line.discount { color: var(--aqua); }
+    .summary-line.total { margin-top: 10px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--text); font: 700 21px var(--heading); }
+    .currency-note { margin: 20px 0 0; color: #81928e; font-size: 12px; line-height: 1.6; }
+    .checkout-submit { width: 100%; margin-top: 22px; }
+    .submit-status { min-height: 22px; margin: 14px 0 0; color: var(--aqua); font-size: 13px; line-height: 1.5; }
+    .empty-state { color: var(--muted); }
+    .site-header { position: fixed; }
+    @media (max-width: 780px) { .checkout-page { padding-top: 110px; } .checkout-grid { grid-template-columns: 1fr; } }
+  </style>
 </head>
-
 <body>
-
-<h1>Checkout</h1>
-<p>Review your selected services below.</p>
-
-<div class="checkout-box" id="checkoutBox">
-    <!-- Dynamic content will load here -->
-</div>
-
+<main class="site-shell checkout-page" id="top">
+  <header class="site-header">
+    <a href="index.html#top" class="brand" aria-label="Return to homepage"><img src="images/zl-logo.png" alt="ZL logo" /><span><strong>ZASHEIRA</strong><small>LI / TECH SYSTEMS</small></span></a>
+    <nav class="desktop-nav" aria-label="Primary navigation"><a href="index.html#top">Home</a><a href="index.html#services">Services</a><a href="catalog.html">Catalog</a><a href="checkout.html" class="active" aria-current="page">Purchase Services ↗</a><a href="index.html#process">Process</a><a href="index.html#contact">Contact</a></nav>
+    <a href="checkout.html" class="header-cta">Checkout <b>↗</b></a><button class="menu-button" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </header>
+  <nav class="mobile-nav" aria-label="Mobile navigation"><a href="index.html#top">Home</a><a href="index.html#services">Services</a><a href="catalog.html">Catalog</a><a href="checkout.html">Purchase Services ↗</a><a href="index.html#process">Process</a><a href="index.html#contact">Contact</a></nav>
+  <div class="checkout-wrap">
+    <div class="eyebrow"><i></i>Secure request intake</div>
+    <h1>Checkout</h1>
+    <p class="checkout-intro">Review your selected services and send your request details.</p>
+    <div class="checkout-grid">
+      <section class="checkout-card" aria-labelledby="customer-heading">
+        <h2 id="customer-heading">Your details</h2>
+        <form id="checkoutForm" action="https://formsubmit.co/ajax/zasheirali@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="New Zasheira Li service request" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_replyto" id="replyTo" />
+          <input type="hidden" name="order_summary" id="orderSummary" />
+          <div class="field"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" required /></div>
+          <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" required /></div>
+          <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
+          <div class="field"><label for="promoCode">Promo code</label><div class="promo-row"><input id="promoCode" name="promoCode" placeholder="Enter code" autocomplete="off" /><button type="button" id="applyPromo">Apply</button></div><p class="promo-message" id="promoMessage" role="status"></p></div>
+          <button class="signal-button checkout-submit" type="submit">Submit request <span aria-hidden="true">↗</span></button>
+          <p class="submit-status" id="submitStatus" role="status" aria-live="polite"></p>
+          <p class="currency-note">Prices are shown in CAD for this checkout estimate. Your payment processor can charge the original service prices in USD. Ontario HST is calculated at 13% (HST combines the federal GST and Ontario provincial portion). The first submission will send an activation email to confirm delivery.</p>
+        </form>
+      </section>
+      <aside class="checkout-card" aria-labelledby="order-heading"><h2 id="order-heading">Your order</h2><div id="orderList" class="order-list"></div><div id="summary"></div></aside>
+    </div>
+  </div>
+</main>
 <script>
-    // -----------------------------
-    // PRODUCT DATABASE (editable)
-    // -----------------------------
-    const PRODUCTS = {
-        "xnjmu9wic1": { name: "Device Diagnostics & Troubleshooting — Advanced Diagnostic", price: 40.00 },
-        "v94hzffkny": { name: "Network Optimization & Speed Boost — Advanced", price: 50.00 },
-        "00joeh0fnc": { name: "API Hosting & Deployment Setup", price: 60.00 },
-        "1380lvy91c": { name: "System Optimization & Tuning — Advanced", price: 50.00 },
-        "ehwzdm2zh4": { name: "Virus Removal & Security Hardening — Advanced", price: 60.00 },
-        "naua2pe2ii": { name: "Computer Skills Coaching (1 Hour) — Advanced", price: 40.00 },
-        "a15wwf48jq": { name: "Computer Skills Training (1 Hour) — Basic", price: 25.00 },
-        "dx0pf5902o": { name: "Printer & Device Configuration — Advanced", price: 35.00 },
-        "k1e1ulsexj": { name: "OS Installation (Windows, macOS, Linux) — Advanced", price: 80.00 },
-        "3sht7bsr4m": { name: "OS Installation / Reset (Windows Only) — Basic", price: 50.00 },
-        "rqncj638mu": { name: "Smart Home Device Setup (Wi‑Fi Plugs, Cameras, Lights)", price: 50.00 },
-        "3rjtwimbb5": { name: "Data Backup Service — Basic", price: 40.00 },
-        "z762sk9jgi": { name: "Device Diagnostics & Troubleshooting — Basic Diagnostic", price: 25.00 },
-        "dl2x96mtjd": { name: "Cloud Storage Setup (Google Drive / OneDrive / iCloud)", price: 35.00 },
-        "s28yiaetb5": { name: "System Speed Boost — Basic", price: 30.00 },
-        "nwjolmwzk6": { name: "Data Recovery Service — Advanced", price: 100.00 },
-        "hl7fhi24q0": { name: "Software Installation & Configuration", price: 20.00 },
-        "7ga4e0266z": { name: "Monthly Tech Support Subscription", price: 30.00 },
-        "kvgzs4omg3": { name: "Password Manager Setup & Security Upgrade", price: 30.00 },
-        "h5icwvdxmz": { name: "Wi‑Fi & Network Setup — Basic", price: 35.00 },
-        "dmfx98sbpz": { name: "Email Setup — Basic", price: 15.00 },
-        "3ysmifde7g": { name: "Device Diagnostics & Troubleshooting — Full Diagnostic", price: 60.00 },
-        "1r7i6bvk00": { name: "Virus & Malware Removal — Basic", price: 40.00 },
-        "gfk0090qs2": { name: "Email Security & Multi‑Device Sync — Advanced", price: 25.00 },
-        "gm0lkppjg2": { name: "Printer Setup — Basic", price: 20.00 }
-    };
-
-    // -----------------------------
-    // URL PARAMETER PARSER
-    // -----------------------------
-    function getParams() {
-        const params = new URLSearchParams(window.location.search);
-        return {
-            products: params.get("products"),
-            coupon: params.get("coupon")
-        };
-    }
-
-    
-
-    // -----------------------------
-    // RENDER CHECKOUT
-    // -----------------------------
-    function renderCheckout() {
-        const box = document.getElementById("checkoutBox");
-        const { products, coupon } = getParams();
-
-        if (!products) {
-            box.innerHTML = "<p>No products found in checkout URL.</p>";
-            return;
-        }
-
-        let total = 0;
-        let html = "";
-
-        const items = products.split(",");
-
-        items.forEach(entry => {
-            const [id, qty] = entry.split(":");
-            const product = PRODUCTS[id];
-
-            if (product) {
-                const cost = product.price * (parseInt(qty) || 1);
-                total += cost;
-
-                html += `
-                    <div class="item">
-                        <strong>${product.name}</strong><br>
-                        Quantity: ${qty}<br>
-                        Price: $${product.price} × ${qty} = <strong>$${cost}</strong>
-                    </div>
-                `;
-            }
-        });
-
-        // Apply coupon (optional)
-        let discount = 0;
-        if (coupon === "welcome10") {
-            discount = total * 0.10;
-            total = total - discount;
-            html += `<div class="coupon">Coupon applied: -$${discount.toFixed(2)}</div>`;
-        }
-
-        html += `<div class="total">Total: $${total.toFixed(2)}</div>`;
-        html += `<button onclick="confirmOrder()">Confirm Request</button>`;
-
-        box.innerHTML = html;
-    }
-
-    // -----------------------------
-    // CONFIRMATION HANDLER
-    // -----------------------------
-    function confirmOrder() {
-        alert("Your request has been submitted. You will receive a confirmation email shortly.");
-    }
-
-    // Initialize checkout
-    renderCheckout();
+const PRODUCTS = {
+  xnjmu9wic1: ['Device Diagnostics & Troubleshooting — Advanced',40], v94hzffkny: ['Network Optimization & Speed Boost — Advanced',50], '00joeh0fnc': ['API Hosting & Deployment Setup',60], '1380lvy91c': ['System Optimization & Tuning — Advanced',50], ehwzdm2zh4: ['Virus Removal & Security Hardening — Advanced',60], naua2pe2ii: ['Computer Skills Coaching (1 Hour) — Advanced',40], a15wwf48jq: ['Computer Skills Training (1 Hour) — Basic',25], dx0pf5902o: ['Printer & Device Configuration — Advanced',35], k1e1ulsexj: ['OS Installation (Windows, macOS, Linux) — Advanced',80], '3sht7bsr4m': ['OS Installation / Reset — Windows Only (Basic)',50], rqncj638mu: ['Smart Home Device Setup',50], '3rjtwimbb5': ['Data Backup Service — Basic',40], z762sk9jgi: ['Device Diagnostics — Basic',25], dl2x96mtjd: ['Cloud Storage Setup',35], s28yiaetb5: ['System Speed Boost — Basic',30], nwjolmwzk6: ['Data Recovery Service — Advanced',100], hl7fhi24q0: ['Software Installation & Configuration',20], '7ga4e0266z': ['Monthly Tech Support Subscription',30], kvgzs4omg3: ['Password Manager Setup & Security Upgrade',30], h5icwvdxmz: ['Wi-Fi & Network Setup — Basic',35], dmfx98sbpz: ['Email Setup — Basic',15], '3ysmifde7g': ['Device Diagnostics — Full Diagnostic',60], '1r7i6bvk00': ['Virus & Malware Removal — Basic',40], gfk0090qs2: ['Email Security & Multi-Device Sync — Advanced',25], gm0lkppjg2: ['Printer Setup — Basic',20]
+};
+const USD_TO_CAD = 1.38;
+const HST_RATE = 0.13;
+let promoApplied = false;
+const money = value => new Intl.NumberFormat('en-CA',{style:'currency',currency:'CAD'}).format(value);
+function selectedItems(){ const raw = new URLSearchParams(location.search).get('products') || ''; return raw.split(',').map(entry => { const [id, quantity] = entry.split(':'); const product = PRODUCTS[id]; return product ? {id, name:product[0], usd:product[1], qty:Math.max(1,parseInt(quantity,10)||1)} : null; }).filter(Boolean); }
+function render(){ const items=selectedItems(); const list=document.getElementById('orderList'); const summary=document.getElementById('summary'); if(!items.length){ list.innerHTML='<p class="empty-state">No products selected. <a href="catalog.html">Return to the catalog ↗</a></p>'; summary.innerHTML=''; return; } let subtotal=0; list.innerHTML=items.map(item=>{const line=item.usd*item.qty*USD_TO_CAD; subtotal+=line; return `<div class="order-item"><strong>${item.name}</strong><span>${item.qty} × ${money(item.usd*USD_TO_CAD)} = ${money(line)}</span></div>`;}).join(''); const discount=promoApplied?subtotal*.10:0; const taxable=subtotal-discount; const hst=taxable*HST_RATE; const total=taxable+hst; summary.innerHTML=`<div class="summary-line"><span>Subtotal</span><strong>${money(subtotal)}</strong></div>${promoApplied?`<div class="summary-line discount"><span>Zasheira promo (10%)</span><strong>−${money(discount)}</strong></div>`:''}<div class="summary-line"><span>Ontario HST (13%)</span><strong>${money(hst)}</strong></div><div class="summary-line total"><span>Total (CAD)</span><strong>${money(total)}</strong></div>`; }
+document.getElementById('applyPromo').addEventListener('click',()=>{const input=document.getElementById('promoCode'); const message=document.getElementById('promoMessage'); if(input.value.trim().toLowerCase()==='zasheira'){promoApplied=true; message.textContent='Promo code applied: 10% off.';} else {promoApplied=false; message.textContent=input.value.trim()?'That promo code is not valid.':'Enter a promo code to apply it.';} render();});
+document.getElementById('checkoutForm').addEventListener('submit',async event=>{event.preventDefault(); const form=event.currentTarget; const status=document.getElementById('submitStatus'); const button=form.querySelector('button[type="submit"]'); if(!selectedItems().length){status.textContent='Please select a service from the catalog first.'; return;} const items=selectedItems(); let subtotal=0; const lines=items.map(item=>{const line=item.usd*item.qty*USD_TO_CAD; subtotal+=line; return `${item.name} — ${item.qty} × ${money(item.usd*USD_TO_CAD)} = ${money(line)}`;}); const discount=promoApplied?subtotal*.10:0; const hst=(subtotal-discount)*HST_RATE; const total=subtotal-discount+hst; document.getElementById('replyTo').value=document.getElementById('email').value; document.getElementById('orderSummary').value=`${lines.join(' | ')} | Subtotal: ${money(subtotal)} | Discount: ${money(discount)} | Ontario HST: ${money(hst)} | Total: ${money(total)}`; button.disabled=true; button.textContent='Sending…'; status.textContent='Sending your request…'; try {const response=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}}); const result=await response.json(); if(!response.ok || result.success===false) throw new Error(result.message||'Unable to send'); status.textContent='Thank you — your request was sent successfully. Zasheira Li will follow up by email.'; form.reset(); render();} catch(error) {status.textContent='The request could not be sent. Please try again or email zasheirali@gmail.com directly.';} finally {button.disabled=false; button.innerHTML='Submit request <span aria-hidden="true">↗</span>';}});
+const menuButton=document.querySelector('.menu-button'); const mobileNav=document.querySelector('.mobile-nav'); menuButton?.addEventListener('click',()=>{const open=mobileNav.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(open));menuButton.textContent=open?'×':'☰';}); mobileNav?.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{mobileNav.classList.remove('open');menuButton.setAttribute('aria-expanded','false');menuButton.textContent='☰';})); render();
 </script>
-
 </body>
 </html>

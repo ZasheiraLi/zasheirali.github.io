@@ -3,135 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse Zasheira Li's technical support services and request a checkout estimate." />
+    <meta name="theme-color" content="#090d11" />
+    <link rel="icon" type="image/png" href="images/zl-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
     <title>Service Catalog | Zasheira Li</title>
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background: #0a0a0a;
-            color: white;
-            text-align: center;
-        }
-
-        header {
-            padding: 40px 20px 20px;
-        }
-
-        .name {
-            font-size: 42px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .systems-active {
-            font-size: 20px;
-            font-weight: bold;
-            color: #00ff66;
-            margin-top: 5px;
-            letter-spacing: 3px;
-        }
-
-        nav {
-            margin-top: 25px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        nav a:hover {
-            color: #00ff66;
-        }
-
-        h1 {
-            margin-top: 50px;
-            font-size: 36px;
-            letter-spacing: 2px;
-        }
-
-        .catalog {
-            width: 90%;
-            max-width: 1100px;
-            margin: 50px auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .item {
-            background: #111;
-            padding: 25px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid #222;
-        }
-
-        .item-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #333;
-        }
-
-        .item h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .item p {
-            font-size: 15px;
-            color: #ccc;
-            margin-bottom: 15px;
-        }
-
-        .price {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .purchase-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #00ff66;
-            color: black;
-            font-weight: bold;
-            border-radius: 6px;
-            text-decoration: none;
-        }
-
-        .purchase-btn:hover {
-            background: #00cc55;
-        }
-    </style>
+    <!-- Meta Pixel Code -->
+    <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1615574453463263');fbq('track','PageView');</script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1615574453463263&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+<style>
+.catalog-page { min-height: 100vh; padding-top: 88px; }
+.catalog-header { position: fixed; }
+.catalog-page h1 { margin: 70px 25px 12px; color: var(--text); font: 600 clamp(42px, 5vw, 72px)/.95 var(--heading); letter-spacing: -.06em; text-align: center; }
+.catalog-page > p { margin: 0 25px; color: var(--muted); text-align: center; }
+.catalog-page .catalog { width: min(1100px, calc(100% - 50px)); margin: 52px auto 100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+.catalog-page .item-img { width: 100%; height: 180px; object-fit: cover; border: 1px solid var(--line); margin-bottom: 15px; }
+.catalog-page .item { text-align: center; }
+.catalog-page .item { background: var(--panel); border: 1px solid var(--line); padding: 24px; transition: transform .2s ease, border-color .2s ease; }
+.catalog-page .item:hover { transform: translateY(-4px); border-color: rgba(88,241,208,.65); }
+.catalog-page .item h3 { color: var(--text); font: 600 20px/1.2 var(--heading); }
+.catalog-page .item p { color: var(--muted); line-height: 1.6; }
+.catalog-page .price { color: var(--brass); font-family: var(--heading); }
+.catalog-page .purchase-btn { border: 0; }
+@media (max-width: 760px) { .catalog-page { padding-top: 72px; } .catalog-header { height: 72px; } }
+</style>
 </head>
 
-<body>
+<body class="catalog-page"><main class="site-shell" id="top">
 
-<header>
-    <div class="name">ZASHEIRA LI</div>
-    <div class="systems-active">SYSTEMS ACTIVE</div>
-
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="catalog.html">Catalog</a>
-        <a href="purchase.html">Purchase Services ↗</a>
-        <a href="process.html">Process</a>
-        <a href="contact.html">Contact</a>
+<header class="site-header catalog-header">
+    <a href="index.html#top" class="brand" aria-label="Return to homepage">
+        <img src="images/zl-logo.png" alt="ZL logo" />
+        <span><strong>ZASHEIRA</strong><small>LI / TECH SYSTEMS</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="index.html#top">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="catalog.html" class="active" aria-current="page">Catalog</a>
+        <a href="checkout.html">Purchase Services ↗</a>
+        <a href="index.html#process">Process</a>
+        <a href="index.html#contact">Contact</a>
     </nav>
+    <a href="checkout.html" class="header-cta">Start a request <b>↗</b></a>
+    <button class="menu-button" aria-label="Toggle menu" aria-expanded="false">☰</button>
 </header>
+<nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="index.html#top">Home</a><a href="index.html#services">Services</a><a href="catalog.html">Catalog</a>
+    <a href="checkout.html">Purchase Services ↗</a><a href="index.html#process">Process</a><a href="index.html#contact">Contact</a>
+</nav>
 
 <h1>SERVICE CATALOG</h1>
-<p>Browse all available services and select the one you need.</p>
+
 
 <div class="catalog">
 
@@ -141,7 +67,7 @@
         <h3>Device Diagnostics & Troubleshooting — Advanced</h3>
         <p>Full advanced diagnostic for system issues, errors, and performance problems.</p>
         <div class="price">$40.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=xnjmu9wic1:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 2 -->
@@ -150,7 +76,7 @@
         <h3>Network Optimization & Speed Boost — Advanced</h3>
         <p>Advanced network tuning for speed, stability, and secure connectivity.</p>
         <div class="price">$50.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=v94hzffkny:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 3 -->
@@ -159,7 +85,7 @@
         <h3>API Hosting & Deployment Setup</h3>
         <p>Setup and deployment of API hosting environments for small teams.</p>
         <div class="price">$60.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=00joeh0fnc:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 4 -->
@@ -168,7 +94,7 @@
         <h3>System Optimization & Tuning — Advanced</h3>
         <p>Advanced system tuning for performance, stability, and workflow efficiency.</p>
         <div class="price">$50.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=1380lvy91c:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 5 -->
@@ -177,7 +103,7 @@
         <h3>Virus Removal & Security Hardening — Advanced</h3>
         <p>Advanced malware removal and system hardening for secure operation.</p>
         <div class="price">$60.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=ehwzdm2zh4:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 6 -->
@@ -186,7 +112,7 @@
         <h3>Computer Skills Coaching (1 Hour) — Advanced</h3>
         <p>One-on-one advanced computer skills coaching tailored to your workflow.</p>
         <div class="price">$40.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=naua2pe2ii:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 7 -->
@@ -195,7 +121,7 @@
         <h3>Computer Skills Training (1 Hour) — Basic</h3>
         <p>Beginner-friendly training for essential computer skills.</p>
         <div class="price">$25.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=a15wwf48jq:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 8 -->
@@ -204,7 +130,7 @@
         <h3>Printer & Device Configuration — Advanced</h3>
         <p>Advanced setup and configuration for printers and connected devices.</p>
         <div class="price">$35.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=dx0pf5902o:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 9 -->
@@ -213,7 +139,7 @@
         <h3>OS Installation (Windows, macOS, Linux) — Advanced</h3>
         <p>Full operating system installation and configuration.</p>
         <div class="price">$80.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=k1e1ulsexj:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 10 -->
@@ -222,7 +148,7 @@
         <h3>OS Installation / Reset — Windows Only (Basic)</h3>
         <p>Basic Windows OS reset or installation.</p>
         <div class="price">$50.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=3sht7bsr4m:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 11 -->
@@ -231,7 +157,7 @@
         <h3>Smart Home Device Setup</h3>
         <p>Setup for Wi-Fi plugs, cameras, lights, and smart home devices.</p>
         <div class="price">$50.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=rqncj638mu:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 12 -->
@@ -240,7 +166,7 @@
         <h3>Data Backup Service — Basic</h3>
         <p>Basic backup setup for important files and documents.</p>
         <div class="price">$40.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=3rjtwimbb5:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 13 -->
@@ -249,7 +175,7 @@
         <h3>Device Diagnostics — Basic</h3>
         <p>Basic diagnostic for common system issues.</p>
         <div class="price">$25.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=z762sk9jgi:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 14 -->
@@ -258,7 +184,7 @@
         <h3>Cloud Storage Setup</h3>
         <p>Setup for Google Drive, OneDrive, or iCloud.</p>
         <div class="price">$35.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=dl2x96mtjd:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 15 -->
@@ -267,7 +193,7 @@
         <h3>System Speed Boost — Basic</h3>
         <p>Basic performance tuning for slow systems.</p>
         <div class="price">$30.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=s28yiaetb5:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 16 -->
@@ -276,7 +202,7 @@
         <h3>Data Recovery Service — Advanced</h3>
         <p>Advanced recovery for lost or corrupted data.</p>
         <div class="price">$100.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=nwjolmwzk6:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 17 -->
@@ -285,7 +211,7 @@
         <h3>Software Installation & Configuration</h3>
         <p>Installation and setup of essential software tools.</p>
         <div class="price">$20.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=hl7fhi24q0:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 18 -->
@@ -294,7 +220,7 @@
         <h3>Monthly Tech Support Subscription</h3>
         <p>Ongoing monthly support for your technology needs.</p>
         <div class="price">$30.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=7ga4e0266z:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 19 -->
@@ -303,7 +229,7 @@
         <h3>Password Manager Setup & Security Upgrade</h3>
         <p>Setup and security upgrade for password management tools.</p>
         <div class="price">$30.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=kvgzs4omg3:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 20 -->
@@ -312,7 +238,7 @@
         <h3>Wi-Fi & Network Setup — Basic</h3>
         <p>Basic setup for home or small office Wi-Fi networks.</p>
         <div class="price">$35.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=h5icwvdxmz:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 21 -->
@@ -321,7 +247,7 @@
         <h3>Email Setup — Basic</h3>
         <p>Basic setup for email accounts and devices.</p>
         <div class="price">$15.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=dmfx98sbpz:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 22 -->
@@ -330,7 +256,7 @@
         <h3>Device Diagnostics — Full Diagnostic</h3>
         <p>Full diagnostic for system health, errors, and performance.</p>
         <div class="price">$60.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=3ysmifde7g:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 23 -->
@@ -339,7 +265,7 @@
         <h3>Virus & Malware Removal — Basic</h3>
         <p>Basic malware removal and system cleanup.</p>
         <div class="price">$40.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=1r7i6bvk00:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- 24 -->
@@ -348,7 +274,7 @@
         <h3>Email Security & Multi-Device Sync — Advanced</h3>
         <p>Advanced email security and multi-device synchronization.</p>
         <div class="price">$25.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=gfk0090qs2:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 <!-- 25 -->
     <div class="item">
@@ -356,10 +282,15 @@
         <h3>Printer Setup — Basic</h3>
         <p>Basic printer setup and configuration.</p>
         <div class="price">$20.00</div>
-        <a class="purchase-btn" href="#">Purchase ↗</a>
+        <a class="purchase-btn signal-button" href="checkout.html?products=gm0lkppjg2:1">Purchase <span aria-hidden="true">↗</span></a>
     </div>
 
 </div>
 
-</body>
+<script>
+const menuButton = document.querySelector('.menu-button');
+const mobileNav = document.querySelector('.mobile-nav');
+menuButton?.addEventListener('click', () => { const open = mobileNav.classList.toggle('open'); menuButton.setAttribute('aria-expanded', String(open)); menuButton.textContent = open ? '×' : '☰'; });
+mobileNav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { mobileNav.classList.remove('open'); menuButton.setAttribute('aria-expanded', 'false'); menuButton.textContent = '☰'; }));
+</script></main></body>
 </html>
