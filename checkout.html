@@ -42,6 +42,11 @@
     .checkout-submit { width: 100%; margin-top: 22px; }
     .submit-status { min-height: 22px; margin: 14px 0 0; color: var(--aqua); font-size: 13px; line-height: 1.5; }
     .empty-state { color: var(--muted); }
+    .order-item { position: relative; padding-right: 92px; }
+    .remove-item { position: absolute; top: 17px; right: 0; border: 1px solid var(--line); padding: 7px 9px; background: transparent; color: var(--muted); font: 700 9px var(--heading); letter-spacing: .08em; text-transform: uppercase; }
+    .remove-item:hover { border-color: var(--aqua); color: var(--aqua); }
+    .checkout-links { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 22px; color: var(--muted); font-size: 12px; }
+    .checkout-links a:hover { color: var(--aqua); }
     .site-header { position: fixed; }
     @media (max-width: 780px) { .checkout-page { padding-top: 110px; } .checkout-grid { grid-template-columns: 1fr; } }
   </style>
@@ -50,10 +55,10 @@
 <main class="site-shell checkout-page" id="top">
   <header class="site-header">
     <a href="index.html#top" class="brand" aria-label="Return to homepage"><img src="images/zl-logo.png" alt="ZL logo" /><span><strong>ZASHEIRA</strong><small>LI / TECH SYSTEMS</small></span></a>
-    <nav class="desktop-nav" aria-label="Primary navigation"><a href="index.html#top">Home</a><a href="index.html#services">Services</a><a href="catalog.html">Catalog</a><a href="checkout.html" class="active" aria-current="page">Purchase Services ↗</a><a href="index.html#process">Process</a><a href="index.html#contact">Contact</a></nav>
+    <nav class="desktop-nav" aria-label="Primary navigation"><a href="index.html#top">Home</a><a href="index.html#services">Services</a><a href="catalog.html">Catalog</a><a href="checkout.html" class="active" aria-current="page">Checkout ↗</a><a href="index.html#process">Process</a><a href="index.html#contact">Contact</a></nav>
     <a href="checkout.html" class="header-cta">Checkout <b>↗</b></a><button class="menu-button" aria-label="Toggle menu" aria-expanded="false">☰</button>
   </header>
-  <nav class="mobile-nav" aria-label="Mobile navigation"><a href="index.html#top">Home</a><a href="index.html#services">Services</a><a href="catalog.html">Catalog</a><a href="checkout.html">Purchase Services ↗</a><a href="index.html#process">Process</a><a href="index.html#contact">Contact</a></nav>
+  <nav class="mobile-nav" aria-label="Mobile navigation"><a href="index.html#top">Home</a><a href="index.html#services">Services</a><a href="catalog.html">Catalog</a><a href="checkout.html">Checkout ↗</a><a href="index.html#process">Process</a><a href="index.html#contact">Contact</a></nav>
   <div class="checkout-wrap">
     <div class="eyebrow"><i></i>Secure request intake</div>
     <h1>Checkout</h1>
@@ -74,9 +79,16 @@
           <p class="submit-status" id="submitStatus" role="status" aria-live="polite"></p>
           <p class="currency-note">Prices are shown in CAD for this checkout estimate. Your payment processor can charge the original service prices in USD. Ontario HST is calculated at 13% (HST combines the federal GST and Ontario provincial portion). The first submission will send an activation email to confirm delivery.</p>
         </form>
+        <div class="checkout-links"><a href="return-policy.html" target="_blank" rel="noopener">Return policy ↗</a><a href="delivery-services.html" target="_blank" rel="noopener">Delivery services ↗</a><a href="privacy.html" target="_blank" rel="noopener">Privacy ↗</a></div>
       </section>
       <aside class="checkout-card" aria-labelledby="order-heading"><h2 id="order-heading">Your order</h2><div id="orderList" class="order-list"></div><div id="summary"></div></aside>
     </div>
+    <nav class="checkout-policy-bar" aria-label="Checkout policies">
+      <span>Before you submit</span>
+      <a href="return-policy.html" target="_blank" rel="noopener">Return policy</a>
+      <a href="delivery-services.html" target="_blank" rel="noopener">Delivery services</a>
+      <a href="privacy.html" target="_blank" rel="noopener">Privacy</a>
+    </nav>
   </div>
 </main>
 <script>
@@ -87,10 +99,24 @@ const USD_TO_CAD = 1.38;
 const HST_RATE = 0.13;
 let promoApplied = false;
 const money = value => new Intl.NumberFormat('en-CA',{style:'currency',currency:'CAD'}).format(value);
-function selectedItems(){ const raw = new URLSearchParams(location.search).get('products'); let entries = raw ? raw.split(',') : []; if(!entries.length){ try { entries = JSON.parse(localStorage.getItem('zasheiraCart') || '[]').map(item => `${item.id}:${item.qty}`); } catch { entries = []; } } return entries.map(entry => { const [id, quantity] = entry.split(':'); const product = PRODUCTS[id]; return product ? {id, name:product[0], usd:product[1], qty:Math.max(1,parseInt(quantity,10)||1)} : null; }).filter(Boolean); }
-function render(){ const items=selectedItems(); const list=document.getElementById('orderList'); const summary=document.getElementById('summary'); if(!items.length){ list.innerHTML='<p class="empty-state">No products selected. <a href="catalog.html">Return to the catalog ↗</a></p>'; summary.innerHTML=''; return; } let subtotal=0; list.innerHTML=items.map(item=>{const line=item.usd*item.qty*USD_TO_CAD; subtotal+=line; return `<div class="order-item"><strong>${item.name}</strong><span>${item.qty} × ${money(item.usd*USD_TO_CAD)} = ${money(line)}</span></div>`;}).join(''); const discount=promoApplied?subtotal*.10:0; const taxable=subtotal-discount; const hst=taxable*HST_RATE; const total=taxable+hst; summary.innerHTML=`<div class="summary-line"><span>Subtotal</span><strong>${money(subtotal)}</strong></div>${promoApplied?`<div class="summary-line discount"><span>Zasheira promo (10%)</span><strong>−${money(discount)}</strong></div>`:''}<div class="summary-line"><span>Ontario HST (13%)</span><strong>${money(hst)}</strong></div><div class="summary-line total"><span>Total (CAD)</span><strong>${money(total)}</strong></div>`; }
+const CART_KEY = 'zasheiraCart';
+function readCart(){ try { return JSON.parse(sessionStorage.getItem(CART_KEY) || '[]'); } catch { return []; } }
+function writeCart(cart){ sessionStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+try { localStorage.removeItem(CART_KEY); } catch {}
+function selectedItems(){
+  let cart = readCart();
+  if(!cart.length){
+    const raw = new URLSearchParams(location.search).get('products');
+    const entries = raw ? raw.split(',') : [];
+    cart = entries.map(entry => { const [id, quantity] = entry.split(':'); return {id, qty:Math.max(1,parseInt(quantity,10)||1)}; }).filter(item => PRODUCTS[item.id]);
+    if(cart.length) writeCart(cart);
+  }
+  return cart.map(item => { const product = PRODUCTS[item.id]; return product ? {id:item.id, name:product[0], usd:product[1], qty:Math.max(1, parseInt(item.qty,10)||1)} : null; }).filter(Boolean);
+}
+function render(){ const items=selectedItems(); const list=document.getElementById('orderList'); const summary=document.getElementById('summary'); if(!items.length){ list.innerHTML='<p class="empty-state">No products selected. <a href="catalog.html">Return to the catalog ↗</a></p>'; summary.innerHTML=''; return; } let subtotal=0; list.innerHTML=items.map(item=>{const line=item.usd*item.qty*USD_TO_CAD; subtotal+=line; return `<div class="order-item"><strong>${item.name}</strong><span>${item.qty} × ${money(item.usd*USD_TO_CAD)} = ${money(line)}</span><button type="button" class="remove-item" data-remove-id="${item.id}" aria-label="Remove ${item.name}">Remove</button></div>`;}).join(''); const discount=promoApplied?subtotal*.10:0; const taxable=subtotal-discount; const hst=taxable*HST_RATE; const total=taxable+hst; summary.innerHTML=`<div class="summary-line"><span>Subtotal</span><strong>${money(subtotal)}</strong></div>${promoApplied?`<div class="summary-line discount"><span>Zasheira promo (10%)</span><strong>−${money(discount)}</strong></div>`:''}<div class="summary-line"><span>Ontario HST (13%)</span><strong>${money(hst)}</strong></div><div class="summary-line total"><span>Total (CAD)</span><strong>${money(total)}</strong></div>`; }
 document.getElementById('applyPromo').addEventListener('click',()=>{const input=document.getElementById('promoCode'); const message=document.getElementById('promoMessage'); if(input.value.trim().toLowerCase()==='zasheira'){promoApplied=true; message.textContent='Promo code applied: 10% off.';} else {promoApplied=false; message.textContent=input.value.trim()?'That promo code is not valid.':'Enter a promo code to apply it.';} render();});
-document.getElementById('checkoutForm').addEventListener('submit',async event=>{event.preventDefault(); const form=event.currentTarget; const status=document.getElementById('submitStatus'); const button=form.querySelector('button[type="submit"]'); if(!selectedItems().length){status.textContent='Please select a service from the catalog first.'; return;} const items=selectedItems(); let subtotal=0; const lines=items.map(item=>{const line=item.usd*item.qty*USD_TO_CAD; subtotal+=line; return `${item.name} — ${item.qty} × ${money(item.usd*USD_TO_CAD)} = ${money(line)}`;}); const discount=promoApplied?subtotal*.10:0; const hst=(subtotal-discount)*HST_RATE; const total=subtotal-discount+hst; document.getElementById('replyTo').value=document.getElementById('email').value; document.getElementById('orderSummary').value=`${lines.join(' | ')} | Subtotal: ${money(subtotal)} | Discount: ${money(discount)} | Ontario HST: ${money(hst)} | Total: ${money(total)}`; button.disabled=true; button.textContent='Sending…'; status.textContent='Sending your request…'; try {const response=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}}); const result=await response.json(); if(!response.ok || result.success===false) throw new Error(result.message||'Unable to send'); status.textContent='Thank you — your request was sent successfully. Zasheira Li will follow up by email.'; form.reset(); localStorage.removeItem('zasheiraCart'); render();} catch(error) {status.textContent='The request could not be sent. Please try again or email zasheirali@gmail.com directly.';} finally {button.disabled=false; button.innerHTML='Submit request <span aria-hidden="true">↗</span>';}});
+document.getElementById('orderList').addEventListener('click', event=>{ const button=event.target.closest('[data-remove-id]'); if(!button) return; const next=readCart().filter(item=>item.id!==button.dataset.removeId); writeCart(next); render(); });
+document.getElementById('checkoutForm').addEventListener('submit',async event=>{event.preventDefault(); const form=event.currentTarget; const status=document.getElementById('submitStatus'); const button=form.querySelector('button[type="submit"]'); if(!selectedItems().length){status.textContent='Please select a service from the catalog first.'; return;} const items=selectedItems(); let subtotal=0; const lines=items.map(item=>{const line=item.usd*item.qty*USD_TO_CAD; subtotal+=line; return `${item.name} — ${item.qty} × ${money(item.usd*USD_TO_CAD)} = ${money(line)}`;}); const discount=promoApplied?subtotal*.10:0; const hst=(subtotal-discount)*HST_RATE; const total=subtotal-discount+hst; document.getElementById('replyTo').value=document.getElementById('email').value; document.getElementById('orderSummary').value=`${lines.join(' | ')} | Subtotal: ${money(subtotal)} | Discount: ${money(discount)} | Ontario HST: ${money(hst)} | Total: ${money(total)}`; button.disabled=true; button.textContent='Sending…'; status.textContent='Sending your request…'; try {const response=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}}); const result=await response.json(); if(!response.ok || result.success===false) throw new Error(result.message||'Unable to send'); status.textContent='Thank you — your request was sent successfully. Zasheira Li will follow up by email.'; form.reset(); sessionStorage.removeItem(CART_KEY); render();} catch(error) {status.textContent='The request could not be sent. Please try again or email zasheirali@gmail.com directly.';} finally {button.disabled=false; button.innerHTML='Submit request <span aria-hidden="true">↗</span>';}});
 const menuButton=document.querySelector('.menu-button'); const mobileNav=document.querySelector('.mobile-nav'); menuButton?.addEventListener('click',()=>{const open=mobileNav.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(open));menuButton.textContent=open?'×':'☰';}); mobileNav?.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{mobileNav.classList.remove('open');menuButton.setAttribute('aria-expanded','false');menuButton.textContent='☰';})); render();
 </script>
 </body>

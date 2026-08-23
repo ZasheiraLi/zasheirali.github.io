@@ -46,7 +46,7 @@
         <a href="index.html#top">Home</a>
         <a href="index.html#services">Services</a>
         <a href="catalog.html" class="active" aria-current="page">Catalog</a>
-        <a href="checkout.html">Purchase Services ↗</a>
+        <a href="checkout.html">Checkout ↗</a>
         <a href="index.html#process">Process</a>
         <a href="index.html#contact">Contact</a>
     </nav>
@@ -55,12 +55,12 @@
 </header>
 <nav class="mobile-nav" aria-label="Mobile navigation">
     <a href="index.html#top">Home</a><a href="index.html#services">Services</a><a href="catalog.html">Catalog</a>
-    <a href="checkout.html">Purchase Services ↗</a><a href="index.html#process">Process</a><a href="index.html#contact">Contact</a>
+    <a href="checkout.html">Checkout ↗</a><a href="index.html#process">Process</a><a href="index.html#contact">Contact</a>
 </nav>
 <div class="sub-heading">
 <h1>SERVICE CATALOG</h1>
 <p>Browse all available services and select the one you need.</p>
-<p class="catalog-status" id="catalogStatus" role="status" aria-live="polite">Select one or more services, then open checkout.</p>
+<p class="catalog-status" id="catalogStatus" role="status" aria-live="polite">Select one or more services, then continue to checkout.</p><div class="catalog-actions"><a id="catalogCheckout" class="signal-button" href="checkout.html">Open checkout <span aria-hidden="true">↗</span></a><span id="catalogCount" class="catalog-count">0 services selected</span></div>
 </div>
 <div class="catalog">
 
@@ -296,9 +296,15 @@ const mobileNav = document.querySelector('.mobile-nav');
 menuButton?.addEventListener('click', () => { const open = mobileNav.classList.toggle('open'); menuButton.setAttribute('aria-expanded', String(open)); menuButton.textContent = open ? '×' : '☰'; });
 mobileNav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { mobileNav.classList.remove('open'); menuButton.setAttribute('aria-expanded', 'false'); menuButton.textContent = '☰'; }));
 const cartKey = 'zasheiraCart';
-const readCart = () => { try { return JSON.parse(localStorage.getItem(cartKey) || '[]'); } catch { return []; } };
-const saveCart = cart => localStorage.setItem(cartKey, JSON.stringify(cart));
+const readCart = () => { try { return JSON.parse(sessionStorage.getItem(cartKey) || '[]'); } catch { return []; } };
+const saveCart = cart => sessionStorage.setItem(cartKey, JSON.stringify(cart));
+// Ignore any legacy persistent cart from older versions of the site.
+try { localStorage.removeItem(cartKey); } catch {}
 const status = document.getElementById('catalogStatus');
-document.querySelectorAll('.purchase-btn').forEach(button => button.addEventListener('click', event => { event.preventDefault(); const url = new URL(button.href, window.location.href); const [id, quantity] = (url.searchParams.get('products') || '').split(':'); if (!id) return; const cart = readCart(); const existing = cart.find(item => item.id === id); if (existing) existing.qty += Math.max(1, Number(quantity) || 1); else cart.push({ id, qty: Math.max(1, Number(quantity) || 1) }); saveCart(cart); const count = cart.reduce((sum, item) => sum + item.qty, 0); button.innerHTML = 'Added ✓'; status.textContent = `${count} service${count === 1 ? '' : 's'} in your checkout. Add more or open checkout from the top menu.`; }));
+const countLabel = document.getElementById('catalogCount');
+const checkoutLink = document.getElementById('catalogCheckout');
+const refreshCartUi = () => { const cart = readCart(); const count = cart.reduce((sum, item) => sum + item.qty, 0); countLabel.textContent = `${count} service${count === 1 ? '' : 's'} selected`; checkoutLink.href = 'checkout.html'; };
+document.querySelectorAll('.purchase-btn').forEach(button => button.addEventListener('click', event => { event.preventDefault(); const url = new URL(button.href, window.location.href); const [id, quantity] = (url.searchParams.get('products') || '').split(':'); if (!id) return; const cart = readCart(); const qty = Math.max(1, Number(quantity) || 1); const existing = cart.find(item => item.id === id); if (existing) existing.qty += qty; else cart.push({ id, qty }); saveCart(cart); const count = cart.reduce((sum, item) => sum + item.qty, 0); button.innerHTML = 'Added ✓'; status.textContent = `${count} service${count === 1 ? '' : 's'} selected. Continue to checkout when ready.`; refreshCartUi(); }));
+refreshCartUi();
 </script></main></body>
 </html>
