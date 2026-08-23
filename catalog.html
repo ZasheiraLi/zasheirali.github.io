@@ -179,11 +179,12 @@ body {
 /* HEADER */
 .sys-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   padding: 25px 0;
   border-bottom: 1px solid #222;
 }
+
 
 .brand {
   display: flex;
@@ -206,16 +207,11 @@ body {
 
 /* NAVIGATION */
 .sys-nav a {
-  margin-left: 20px;
-  text-decoration: none;
-  color: #e5e5e5;
-  font-size: 15px;
-  transition: 0.2s;
+  margin: 0 12px;
 }
 
-.sys-nav a:hover,
-.sys-nav a.active {
-  color: #4caf50;
+.sys-nav a {
+  margin: 0 12px;
 }
 
 /* INTRO */
@@ -308,7 +304,7 @@ body {
     <span class="sys">SYSTEMS ACTIVE</span>
   </div>
 
-  <nav class="sys-nav">
+  <nav class="sys-nav center-nav">
     <a href="index.html">Home</a>
     <a href="index.html#services">Services</a>
     <a href="catalog.html" class="active">Catalog</a>
@@ -317,6 +313,8 @@ body {
     <a href="index.html#contact">Contact</a>
   </nav>
 </header>
+
+
 
 <section class="catalog-intro">
   <h1>SERVICE CATALOG</h1>
