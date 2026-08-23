@@ -73,26 +73,121 @@
     .buy-button:hover {
         background: #45a049;
     }
+
+  /* HEADER */
+.sys-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 0;
+    border-bottom: 1px solid #222;
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.brand .zl {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #e5e5e5;
+}
+
+.brand .sys {
+    font-size: 12px;
+    color: #4caf50;
+    opacity: 0.8;
+}
+
+/* NAVIGATION */
+.sys-nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #e5e5e5;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.sys-nav a:hover,
+.sys-nav a.active {
+    color: #4caf50;
+}
+
+/* INTRO */
+.catalog-intro {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.catalog-intro h1 {
+    font-size: 42px;
+    letter-spacing: 2px;
+    color: #4caf50;
+    margin-bottom: 10px;
+}
+
+.catalog-intro p {
+    font-size: 18px;
+    color: #ccc;
+}
+
+/* PRODUCT GRID POLISH */
+.product-card {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    transition: 0.25s;
+}
+
+.product-card:hover {
+    border-color: #4caf50;
+    transform: translateY(-4px);
+}
+
+.buy-button {
+    background: #4caf50;
+    transition: 0.25s;
+}
+
+.buy-button:hover {
+    background: #5ecb63;
+}
+
 </style>
 </head>
 
 <body>
 
-<h1>Service Catalog</h1>
-<p>Select a service to purchase.</p>
+<body>
+
+<header class="sys-header">
+    <div class="brand">
+        <span class="zl">ZASHEIRA LI</span>
+        <span class="sys">SYSTEMS ACTIVE</span>
+    </div>
+
+    <nav class="sys-nav">
+        <a href="index.html">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="catalog.html" class="active">Catalog</a>
+        <a href="checkout.html">Purchase Services ↗</a>
+        <a href="index.html#process">Process</a>
+        <a href="index.html#contact">Contact</a>
+    </nav>
+</header>
+
+<section class="catalog-intro">
+    <h1>SERVICE CATALOG</h1>
+    <p>Browse all available services and select the one you need.</p>
+</section>
 
 <div class="catalog-grid">
 
-    <!-- TEMPLATE FOR EACH PRODUCT -->
-   
-    <!-- 1 -->
-    <div class="product-card">
-        <img src="images/1-device-diagnostics-and-troubleshooting-advanced.jpg" alt="Device Diagnostics & Troubleshooting — Advanced">
-        <h3>Device Diagnostics & Troubleshooting — Advanced</h3>
-        <p>Full advanced diagnostic for system issues, errors, and performance problems.</p>
-        <strong>$40.00</strong>
-        <a class="buy-button" href="checkout.html?products=xnjmu9wic1:1">Purchase ↗</a>
-    </div>
 
     <!-- 2 -->
     <div class="product-card">
