@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout | Zasheira Li</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #e5e5e5;
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .checkout-box {
+            background: #111;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            max-width: 600px;
+        }
+
+        .item {
+            padding: 12px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .total {
+            font-size: 22px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .coupon {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #4caf50;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 12px 20px;
+            background: #4caf50;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Checkout</h1>
+<p>Review your selected services below.</p>
+
+<div class="checkout-box" id="checkoutBox">
+    <!-- Dynamic content will load here -->
+</div>
+
+<script>
+    // -----------------------------
+    // PRODUCT DATABASE (editable)
+    // -----------------------------
+    const PRODUCTS = {
+        "service001": { name: "Software Repair", price: 80 },
+        "service002": { name: "Network Care", price: 65 },
+        "service003": { name: "Device Readiness", price: 50 }
+    };
+
+    // -----------------------------
+    // URL PARAMETER PARSER
+    // -----------------------------
+    function getParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            products: params.get("products"),
+            coupon: params.get("coupon")
+        };
+    }
+
+    // -----------------------------
+    // RENDER CHECKOUT
+    // -----------------------------
+    function renderCheckout() {
+        const box = document.getElementById("checkoutBox");
+        const { products, coupon } = getParams();
+
+        if (!products) {
+            box.innerHTML = "<p>No products found in checkout URL.</p>";
+            return;
+        }
+
+        let total = 0;
+        let html = "";
+
+        const items = products.split(",");
+
+        items.forEach(entry => {
+            const [id, qty] = entry.split(":");
+            const product = PRODUCTS[id];
+
+            if (product) {
+                const cost = product.price * (parseInt(qty) || 1);
+                total += cost;
+
+                html += `
+                    <div class="item">
+                        <strong>${product.name}</strong><br>
+                        Quantity: ${qty}<br>
+                        Price: $${product.price} × ${qty} = <strong>$${cost}</strong>
+                    </div>
+                `;
+            }
+        });
+
+        // Apply coupon (optional)
+        let discount = 0;
+        if (coupon === "welcome10") {
+            discount = total * 0.10;
+            total = total - discount;
+            html += `<div class="coupon">Coupon applied: -$${discount.toFixed(2)}</div>`;
+        }
+
+        html += `<div class="total">Total: $${total.toFixed(2)}</div>`;
+        html += `<button onclick="confirmOrder()">Confirm Request</button>`;
+
+        box.innerHTML = html;
+    }
+
+    // -----------------------------
+    // CONFIRMATION HANDLER
+    // -----------------------------
+    function confirmOrder() {
+        alert("Your request has been submitted. You will receive a confirmation email shortly.");
+    }
+
+    // Initialize checkout
+    renderCheckout();
+</script>
+
+</body>
+</html>
